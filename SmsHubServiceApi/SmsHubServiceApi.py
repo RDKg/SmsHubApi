@@ -187,13 +187,14 @@ class SmsHubApi():
 
         return response.json()
 
-    def SetMaxPrice(self, maxPrice: float, service: str, country: int) -> int:
+    def SetMaxPrice(self, maxPrice: float, service: str, country: int, random: bool = False) -> int:
         """
             Параметры:
             - apiKey - Ваш API-ключ, обеспечивающий доступ к оплаченным услугам. Обязательный параметр;
             - maxPrice - Максимальная цена для покупки номера;
             - service - Сервис приобретаемого номера. Необязательный параметр;
             - country - Страна номера. Обязательный параметр;
+            - random - Выдавать случайный номер в рамках указанной цены (True), или сначала самые дешевые (False).
         """
 
         response = requests.get(url=self.url, params={
@@ -201,7 +202,8 @@ class SmsHubApi():
             "action": "setMaxPrice",
             "maxPrice": maxPrice,
             "service": service,
-            "country": country
+            "country": country,
+            "random": random
         })
 
         SmsHubApi.FindException(response.text)
